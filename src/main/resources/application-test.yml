@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16:///testdb
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+security:
+  jwt:
+    access-secret: test-access
+    refresh-secret: test-refresh
+financehub:
+  credentials:
+    health:
+      enabled: false

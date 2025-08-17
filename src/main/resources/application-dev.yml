@@ -1,0 +1,15 @@
+spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/dev
+  jpa:
+    show-sql: false
+
+financehub:
+  credentials:
+    health:
+      enabled: true
+  secrets:
+    master-key: ${FINANCEHUB_MASTER_KEY}
+logging:
+  level:
+    com.acme.financehub: DEBUG
