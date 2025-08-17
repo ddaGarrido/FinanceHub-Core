@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:16
+    container_name: financehub-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: financehub
+      POSTGRES_USER: financehub
+      POSTGRES_PASSWORD: financehub
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U financehub -d financehub"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - financehub_pgdata:/var/lib/postgresql/data
+
+  # Optional: dev Vault; safe to omit if you use LocalInMemorySecretProvider in dev
+  vault:
+    image: hashicorp/vault:1.16
+    container_name: financehub-vault
+    restart: unless-stopped
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    ports:
+      - "8200:8200"
+    command: "server -dev"
+    cap_add: [ "IPC_LOCK" ]
+
+volumes:
+  financehub_pgdata:
